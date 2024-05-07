@@ -8,19 +8,22 @@ import java.util.stream.Collectors;
 
 public class MovieManager {
     private MovieCollection movieCollection;
+    private final String filePath;
 
     public MovieManager(String filePath) {
-        this.movieCollection = loadMovies(filePath);
+        this.filePath = filePath;
+        loadMovies();
     }
 
-    private MovieCollection loadMovies(String filePath) {
+    public void loadMovies() {
         try {
             String json = new String(Files.readAllBytes(Paths.get(filePath)));
             Gson gson = new Gson();
-            return gson.fromJson(json, MovieCollection.class);
+            movieCollection = gson.fromJson(json, MovieCollection.class);
+            System.out.println("Movies loaded successfully.");
         } catch (Exception e) {
+            System.out.println("Failed to load movies.");
             e.printStackTrace();
-            return new MovieCollection();
         }
     }
 

@@ -4,13 +4,14 @@ import java.util.Scanner;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
-    private static MovieManager manager;
+    private static MovieManager manager = new MovieManager("src/movies.json");
 
     public static void main(String[] args) {
         System.out.println("Welcome to the Movie Manager Application!");
+        manager.loadMovies();
         while (true) {
             System.out.println("\nAvailable actions:");
-            System.out.println("1 - Load Movies");
+            System.out.println("1 - Reload Movies");
             System.out.println("2 - Display All Movies");
             System.out.println("3 - Search Movies by Actor");
             System.out.println("4 - Search Movies by Director");
@@ -24,10 +25,10 @@ public class Main {
 
             switch (action) {
                 case 1:
-                    loadMovies();
+                    manager.loadMovies();
                     break;
                 case 2:
-                    displayMovies();
+                    manager.displayMovies();
                     break;
                 case 3:
                     searchMoviesByActor();
@@ -42,7 +43,7 @@ public class Main {
                     displayRolesByActor();
                     break;
                 case 7:
-                    displayAllActorsSorted();
+                    manager.displayAllActorsSorted();
                     break;
                 case 8:
                     System.out.println("Exiting the application.");
@@ -51,21 +52,6 @@ public class Main {
                 default:
                     System.out.println("Invalid action, please try again.");
             }
-        }
-    }
-
-    private static void loadMovies() {
-        System.out.print("Enter the path to the movies file (for example: src/movies.json): ");
-        String path = scanner.nextLine();
-        manager = new MovieManager(path);
-        System.out.println("Movies loaded successfully.");
-    }
-
-    private static void displayMovies() {
-        if (manager != null) {
-            manager.displayMovies();
-        } else {
-            System.out.println("Please load movies first.");
         }
     }
 
@@ -86,6 +72,7 @@ public class Main {
     private static void searchMoviesByYear() {
         System.out.print("Enter the year: ");
         int year = scanner.nextInt();
+        scanner.nextLine();
         List<Movie> movies = manager.getMoviesByYear(year);
         manager.sortAndDisplayMovies(movies, Comparator.comparing(Movie::getName));
     }
@@ -94,13 +81,5 @@ public class Main {
         System.out.print("Enter actor's name: ");
         String name = scanner.nextLine();
         manager.displayRolesByActor(name);
-    }
-
-    private static void displayAllActorsSorted() {
-        if (manager != null) {
-            manager.displayAllActorsSorted();
-        } else {
-            System.out.println("Please load movies first.");
-        }
     }
 }
