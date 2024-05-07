@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Welcome to the Movie Manager Application!");
-        manager.loadMovies();
+        manager.loadMovies(); 
         while (true) {
             System.out.println("\nAvailable actions:");
             System.out.println("1 - Reload Movies");
@@ -20,8 +20,7 @@ public class Main {
             System.out.println("7 - Display All Actors Sorted");
             System.out.println("8 - Exit");
             System.out.print("Choose an action: ");
-            int action = scanner.nextInt();
-            scanner.nextLine();
+            int action = getIntInput();
 
             switch (action) {
                 case 1:
@@ -51,6 +50,16 @@ public class Main {
                     return;
                 default:
                     System.out.println("Invalid action, please try again.");
+            }
+        }
+    }
+
+    private static int getIntInput() {
+        while (true) {
+            try {
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input, please enter a valid number: ");
             }
         }
     }
